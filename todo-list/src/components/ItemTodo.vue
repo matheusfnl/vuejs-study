@@ -76,7 +76,8 @@ export default {
                 this.itemTodos[item].checked = !this.itemTodos[item].checked
             }
         }
-    }
+    },
+    
 }
 </script>
 

@@ -24,6 +24,21 @@ export default {
             itemTodos: []
         }
     },
+    watch: {
+        itemTodos: {
+            deep: true,
+            handler() {
+                localStorage.setItem('itemTodos', JSON.stringify(this.itemTodos))
+            }
+        }
+    },
+    created() {
+        const json = localStorage.getItem('itemTodos')
+        const array = JSON.parse(json)
+        if(Array.isArray(array)) {
+            this.itemTodos = array || []
+        }
+    }
 }
 </script>
 
