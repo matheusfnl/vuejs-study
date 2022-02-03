@@ -41,25 +41,18 @@ export default {
             this.itemTodos.splice(item, 1)
         },
         AskRemoveItemTodo(item) {
-            if(this.itemTodos[item].delete) {
-                    this.itemTodos[item].delete = false
-            }
-            else{
-                this.itemTodos[item].delete = true
-            }
+            this.itemTodos[item].delete = !this.itemTodos[item].delete
         },
         EditarItemTodo(item) {
             this.itemTodos[item].checked = false
-            if(this.itemTodos[item].editing) 
-            {
+            if(this.itemTodos[item].editing) {
                 this.itemTodos[item].editing = false;
                 const editTitle = document.querySelectorAll("h2");
                 const editDesc = document.querySelectorAll("h4");
                 editTitle[item].setAttribute("contenteditable", false);
                 editDesc[item].setAttribute("contenteditable", false);
             }
-            else if(!this.itemTodos[item].editing) 
-            {
+            else if(!this.itemTodos[item].editing) {
                 this.itemTodos[item].editing = true;
                 const editTitle = document.querySelectorAll("h2");
                 const editDesc = document.querySelectorAll("h4");
@@ -80,12 +73,7 @@ export default {
         Check(item) {
             if(!this.itemTodos[item].editing)
             {
-                if(this.itemTodos[item].checked) {
-                    this.itemTodos[item].checked = false
-                }
-                else{
-                    this.itemTodos[item].checked = true
-                }
+                this.itemTodos[item].checked = !this.itemTodos[item].checked
             }
         }
     }
@@ -175,6 +163,10 @@ export default {
     .checkOk {
         background: rgba(175, 252, 98, 0.65);
         color: rgb(87, 87, 87);
+    }
+
+    .btn {
+        transition: none;
     }
 
     .full_btn {
