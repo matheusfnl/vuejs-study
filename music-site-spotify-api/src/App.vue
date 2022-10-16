@@ -1,15 +1,8 @@
 <template>
-  <Header />
+  <Header class="header" />
 
-  <div>
-    <a v-if="!token" :href="`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`">Login</a>
-    <button v-else @click="logOut">Logout</button>
-  </div>
-
-  <div v-if="token" style="margin-top: 10px; ">
-    <p style="font-size: 22px;">Search</p>
-    <input placeholder="Search" type="text" @change="setSearch">
-    <button style="margin-left: 10px; " @click="searchArtists">Submit</button>
+  <div class="app">
+    <SecondaryHeader />
   </div>
 </template>
 
@@ -17,20 +10,15 @@
 import { defineComponent } from 'vue';
 
 import Header from '@/components/Header.vue';
+import SecondaryHeader from '@/components/SecondaryHeader.vue'
 
-import { fetchArtists, fetchTracks } from '@/api/index';
+import { mapActions } from 'vuex'
 
-type Spotify = {
-  Player;
-}
+type Spotify = { Player }
 
 export default defineComponent({
   data() {
     return {
-      CLIENT_ID: '687c2de7f616448fa9b6c033d7dd6766',
-      REDIRECT_URI: 'http://localhost:8080',
-      AUTH_ENDPOINT: 'https://accounts.spotify.com/authorize',
-      RESPONSE_TYPE: 'token',
       hash: '',
       token: '' as string | null | undefined,
       search_key: '',
@@ -39,6 +27,7 @@ export default defineComponent({
 
   components: {
     Header,
+    SecondaryHeader,
   },
 
   created() {
@@ -57,28 +46,11 @@ export default defineComponent({
 
   mounted() {
     this.initiatePlayer();
+    this.setToken(this.token);
   },
 
   methods: {
-    logOut() {
-      this.token = '';
-      localStorage.removeItem('token');
-    },
-
-    async searchArtists() {
-      if(this.search_key) {
-        let response = await fetchArtists(this.search_key);
-        console.log(response);
-        response = await fetchTracks(this.search_key);
-        console.log(response)
-
-      }
-    },
-    
-    setSearch(e) {
-      this.search_key = e.target.value;
-    },
-
+    ...mapActions(['setToken']),
     async waitForSpotifyWebPlaybackSDKToLoad(): Promise<Spotify> {
       return new Promise(resolve => {
         if (window.Spotify) {
@@ -121,12 +93,22 @@ export default defineComponent({
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #3c3c3c;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .header, .app { float: left; }
+  .header { width: 255px; }
+  .app { width: calc(100% - 255px); }
 </style>

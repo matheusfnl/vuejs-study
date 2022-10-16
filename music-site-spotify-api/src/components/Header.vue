@@ -1,5 +1,5 @@
 <template>
-  <div class="body-teste">
+  <div class="header">
     header
   </div>
 </template>
@@ -12,6 +12,11 @@
   })
 </script>
 
-<style>
-
+<style scoped>
+  .header {
+    background-color: rgb(234, 192, 192);
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
 </style>
