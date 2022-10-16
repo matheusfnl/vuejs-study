@@ -1,17 +1,35 @@
 <template>
-  <div class="top-header">
-      <a v-if="!getToken" :href="`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`">Login</a>
+  <nav class="top-header">
+    <ul>
+      <li>
+        <input 
+          placeholder="Search"
+          type="text"
+          @change="setSearch"
+        >
+      </li>
 
-      <button v-else @click="logOut">Logout</button>
+      <li>
+        <button @click="searchArtists">Submit</button>
+      </li>
 
-      <div v-if="getToken" style="margin-top: 10px; ">
-        <p style="font-size: 22px;">Search</p>
+      <li>
+        <a
+          v-if="!getToken"
+          :href="`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`"
+        >
+          Login
+        </a>
 
-        <input placeholder="Search" type="text" @change="setSearch">
-
-        <button style="margin-left: 10px; " @click="searchArtists">Submit</button>
-      </div>
-  </div>
+        <button
+          v-else
+          @click="logOut"
+        >
+          Logout
+        </button>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script lang="ts">
@@ -68,8 +86,18 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  .top-header {
-    height: 60px;
-    background-color: rgb(178, 178, 229);
+  .top-header { background-color: rgb(178, 178, 229); }
+  .top-header ul {
+    margin: 0;
+    padding: 20px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  .top-header ul li:last-child {
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
   }
 </style>

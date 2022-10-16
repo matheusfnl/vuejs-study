@@ -109,6 +109,10 @@ export default defineComponent({
   }
 
   .header, .app { float: left; }
-  .header { width: 255px; }
+  .header {
+    width: 255px;
+    max-width: 255px;
+  }
+
   .app { width: calc(100% - 255px); }
 </style>
