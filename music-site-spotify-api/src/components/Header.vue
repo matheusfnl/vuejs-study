@@ -20,7 +20,21 @@
       </div>
 
       <div class="actual-track">
-        Actual-track
+        <div class="actual-track-image">
+          <div class="title">
+            <span class="text-truncate">
+              Track name
+            </span>
+
+            <span class="text-truncate">
+              Artist
+            </span>
+          </div>
+        </div>
+
+        <div class="player">
+          {{ '<    ||    >' }}
+        </div>
       </div>
     </div>
   </div>
@@ -45,7 +59,21 @@
   .menu {
     background-color: rgb(192, 234, 201);
     flex: 0 1 auto;
-    padding: 20px 10px;
+    padding: 20px 10px 10px;
+  }
+
+  .menu .item { margin-bottom: 10px; }
+  .menu .item a:hover { color: rgb(74, 74, 74); }
+  .menu .item a {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+  }
+
+  .logo {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
   }
 
   .track-list {
@@ -56,6 +84,36 @@
 
   .actual-track {
     background-color: rgb(192, 232, 234);
-    flex: 0 1 355px;
+    flex: 0 1 auto;
+  }
+
+  .actual-track-image {
+    width: 255px;
+    height: 255px;
+    background-color: rgb(255, 127, 127);
+  }
+
+  .actual-track-image .title { padding: 10px; }
+  .actual-track-image .title span {
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 6px rgb(82, 82, 82);
+  }
+
+  .actual-track-image .title span:first-child { font-size: 26px; }
+  .actual-track-image .title span:last-child { font-size: 16px; }
+  .actual-track-image .title span { display: block; }
+
+  .player {
+    height: 120px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
   }
 </style>
