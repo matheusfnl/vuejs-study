@@ -68,7 +68,7 @@ export default defineComponent({
 
       const sdk = new Player({
         name: 'Test Web Playback SDK',
-        volume: 1.0,
+        volume: 0.5,
         getOAuthToken: callback => { callback(this.token) }
       })
 
