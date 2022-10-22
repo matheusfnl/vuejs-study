@@ -57,7 +57,7 @@
                 <font-awesome-icon icon="fa-solid fa-backward-step" />
               </li>
 
-              <li>
+              <li @click="playTrack()">
                 <font-awesome-icon icon="fa-solid fa-circle-pause" />
               </li>
 
@@ -91,6 +91,8 @@
 <script>
   import { defineComponent } from 'vue';
 
+  import { mapGetters } from 'vuex'
+
   export default  defineComponent({
     name: 'MainHeader',
     data() {
@@ -102,7 +104,15 @@
     methods: {
       changeTrackListType(type) {
         this.track_list_type = type;
+      },
+
+      playTrack() {
+        this.getSDKPlayer.togglePlay();
       }
+    },
+
+    computed: {
+      ...mapGetters(['getSDKPlayer']),
     }
   })
 </script>

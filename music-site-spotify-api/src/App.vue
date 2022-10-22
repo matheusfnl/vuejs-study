@@ -15,6 +15,10 @@ import SecondaryHeader from '@/components/SecondaryHeader.vue'
 import { mapActions } from 'vuex'
 
 type Spotify = { Player }
+type SDK = {
+  addListener,
+  connect,
+}
 
 export default defineComponent({
   data() {
@@ -22,6 +26,7 @@ export default defineComponent({
       hash: '',
       token: '' as string | null | undefined,
       search_key: '',
+      sdk: {} as SDK,
     }
   },
 
@@ -50,7 +55,11 @@ export default defineComponent({
   },
 
   methods: {
-    ...mapActions(['setToken']),
+    ...mapActions([
+      'setToken',
+      'setSDKPlayer',
+    ]),
+
     async waitForSpotifyWebPlaybackSDKToLoad(): Promise<Spotify> {
       return new Promise(resolve => {
         if (window.Spotify) {
@@ -66,27 +75,29 @@ export default defineComponent({
     async initiatePlayer() {
       const { Player } = await this.waitForSpotifyWebPlaybackSDKToLoad()
 
-      const sdk = new Player({
+      this.sdk = new Player({
         name: 'Test Web Playback SDK',
         volume: 0.5,
-        getOAuthToken: callback => { callback(this.token) }
+        getOAuthToken: callback => { callback('BQAx1zcBi8qliyh7wcHfLlNzn588zYEzjQi7Z5HMuKc9O2h4OfA3ZCiXiNVilWrYiiVMqZou9uxfVguXBpF8y1CgqW4awpkqfiGJdT2Dw9_h8LckLGaxAdsnxQtBrUGCs_4Jcsje3VCbiyHpbsx_6R4ZS2OwP2mwduUxJ3Hi2qOa_qn0Pf_Jm55V4e_w7e5OrYHXNQ_emnBWAmYv6X232m4') }
       })
 
+      this.setSDKPlayer(this.sdk)
+
       // Error handling
-      sdk.addListener('initialization_error', ({ message }) => { console.log('Initialization_error: ' + message) })
-      sdk.addListener('authentication_error', ({ message }) => { console.log('Authentication_error: ' + message) })
-      sdk.addListener('account_error', ({ message }) => { console.log('Account_error: ' + message) })
-      sdk.addListener('playback_error', ({ message }) => { console.log('Playback_error: ' + message) })
+      this.sdk.addListener('initialization_error', ({ message }) => { console.log('Initialization_error: ' + message) })
+      this.sdk.addListener('authentication_error', ({ message }) => { console.log('Authentication_error: ' + message) })
+      this.sdk.addListener('account_error', ({ message }) => { console.log('Account_error: ' + message) })
+      this.sdk.addListener('playback_error', ({ message }) => { console.log('Playback_error: ' + message) })
 
       // Playback status updates
-      sdk.addListener('player_state_changed', state => { console.log('Playback status updated', state) })
+      this.sdk.addListener('player_state_changed', state => { console.log('Playback status updated', state) })
 
       // Ready
-      sdk.addListener('ready', ({ device_id }) => {console.log('Ready with Device Id: ', device_id) })
+      this.sdk.addListener('ready', ({ device_id }) => {console.log('Ready with Device Id: ', device_id) })
 
       // Not Ready
-      sdk.addListener('not_ready', ({ device_id }) => { console.log('Not ready with device Id: ', device_id) })
-      sdk.connect()
+      this.sdk.addListener('not_ready', ({ device_id }) => { console.log('Not ready with device Id: ', device_id) })
+      this.sdk.connect()
     }
   }
 })
